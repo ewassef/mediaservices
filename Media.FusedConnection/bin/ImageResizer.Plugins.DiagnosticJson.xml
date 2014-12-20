@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ImageResizer.Plugins.DiagnosticJson</name>
+    </assembly>
+    <members>
+        <member name="M:ImageResizer.Plugins.DiagnosticJson.DiagnosticJsonPlugin.Pipeline_PreHandleImage(System.Web.IHttpModule,System.Web.HttpContext,ImageResizer.Caching.IResponseArgs)">
+            <summary>
+            This is where we hijack the resizing process, interrupt it, and send
+            back the json data we created.
+            </summary>
+            <param name="sender"></param>
+            <param name="context"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:ImageResizer.Plugins.DiagnosticJson.SizeOnly">
+            <summary>
+            A size-only variant for PolyRect, since we have some cases
+            where we don't need all the values.
+            </summary>
+        </member>
+        <member name="T:ImageResizer.Plugins.DiagnosticJson.PolyRect">
+            <summary>
+            A JSON serializer-helper class to represent rectangles and polygons
+            </summary>
+        </member>
+    </members>
+</doc>

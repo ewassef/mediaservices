@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MediaModelStoreContainer" CdmEntityContainer="MediaEntities">
+    <EntitySetMapping Name="Images">
+      <EntityTypeMapping TypeName="MediaModel.Image">
+        <MappingFragment StoreEntitySet="Images">
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="Path" ColumnName="Path" />
+          <ScalarProperty Name="Exif" ColumnName="Exif" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Mime" ColumnName="Mime" />
+          <ScalarProperty Name="CreatedUtc" ColumnName="CreatedUtc" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

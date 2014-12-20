@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ImageResizer.Plugins.CopyMetadata</name>
+    </assembly>
+    <members>
+        <member name="T:ImageResizer.Plugins.CopyMetadata.CopyMetadataPlugin">
+            <summary>
+            A plugin for ImageResizer that copies image metadata from the source
+            image to the result image.
+            </summary>
+        </member>
+    </members>
+</doc>

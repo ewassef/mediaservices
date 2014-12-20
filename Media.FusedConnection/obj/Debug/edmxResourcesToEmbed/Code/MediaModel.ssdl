@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MediaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Images">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Owner" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Mime" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Exif" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedUtc" Type="datetime" Nullable="false" />
+    <Property Name="Path" Type="varchar(max)" />
+    <Property Name="Size" Type="bigint" />
+  </EntityType>
+  <EntityContainer Name="MediaModelStoreContainer">
+    <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

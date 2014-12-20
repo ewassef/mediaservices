@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Media Services - Fused Connection</title>
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <form id="fileupload" action="@Url.Action("TestPost", "Images", new { owner = "Uploads" })" method="POST" enctype="multipart/form-data">
+                <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                <div class="row fileupload-buttonbar">
+                    <div class="col-lg-7">
+                        <!-- The fileinput-button span is used to style the file input field as button -->
+                        <span class="btn btn-success fileinput-button">
+                            <i class="icon-plus icon-white"></i>
+                            <span>Add files...</span>
+                            <input type="file" name="files[]" multiple>
+                        </span>
+                        <button type="submit" class="btn btn-primary start">
+                            <i class="icon-upload icon-white"></i>
+                            <span>Start upload</span>
+                        </button>
+                        <button type="reset" class="btn btn-warning cancel">
+                            <i class="icon-ban-circle icon-white"></i>
+                            <span>Cancel upload</span>
+                        </button>
+                        <button type="button" class="btn btn-danger delete">
+                            <i class="icon-trash icon-white"></i>
+                            <span>Delete</span>
+                        </button>
+                        <input type="checkbox" class="toggle">
+                        <!-- The global file processing state -->
+                        <span class="fileupload-process"></span>
+                    </div>
+                    <!-- The global progress state -->
+                    <div class="col-lg-5 fileupload-progress">
+                        <!-- The global progress bar -->
+                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-bar-success" style="width: 0%;"></div>
+                        </div>
+                        <!-- The extended global progress state -->
+                        <div class="progress-extended">&nbsp;</div>
+                    </div>
+                </div>
+                <!-- The table listing the files available for upload/download -->
+                <table role="presentation" class="table table-striped">
+                    <tbody class="files"></tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+    <script src="@Url.Content("~/Scripts/jquery-2.1.1.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/vendor/jquery.ui.widget.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.iframe-transport.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.fileupload.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.fileupload-process.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.fileupload-image.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.fileupload-audio.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.fileupload-video.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.fileupload-validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.fileupload-ui.js")"></script>
+
+    <script>
+
+
+        $(function () {
+            'use strict';
+
+
+            // Enable iframe cross-domain access via redirect option:
+            $('#fileupload').fileupload(
+                'option',
+                'redirect',
+                window.location.href.replace(
+                    /\/[^\/]*$/,
+                    '/cors/result.html?%s'
+                )
+            );
+
+
+            // Load existing files:
+            $('#fileupload').addClass('fileupload-processing');
+            $.ajax({
+                // Uncomment the following to send cross-domain cookies:
+                //xhrFields: {withCredentials: true},
+                url: $('#fileupload').fileupload('option', 'url'),
+                dataType: 'json',
+                context: $('#fileupload')[0]
+            }).always(function () {
+                $(this).removeClass('fileupload-processing');
+            }).done(function (result) {
+                $(this).fileupload('option', 'done')
+                    .call(this, $.Event('done'), { result: result });
+            });
+
+
+        });
+
+    </script>
+
+
+</body>
+</html>

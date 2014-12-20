@@ -1,0 +1,8 @@
+C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection.Helpers\bin\Debug\Media.FusedConnection.Helpers.dll.config
+C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection.Helpers\bin\Debug\Media.FusedConnection.Helpers.dll
+C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection.Helpers\bin\Debug\Media.FusedConnection.Helpers.pdb
+C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection.Helpers\bin\Debug\Media.FusedConnection.Messages.dll
+C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection.Helpers\bin\Debug\Media.FusedConnection.Messages.pdb
+C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection.Helpers\obj\Debug\Media.FusedConnection.Helpers.csprojResolveAssemblyReference.cache
+C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection.Helpers\obj\Debug\Media.FusedConnection.Helpers.dll
+C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection.Helpers\obj\Debug\Media.FusedConnection.Helpers.pdb
