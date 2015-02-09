@@ -206,3 +206,4 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+Media.FusedConnection/uploads/

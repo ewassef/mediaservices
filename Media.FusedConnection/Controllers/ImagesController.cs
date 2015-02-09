@@ -1,27 +1,26 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net;
-using System.Reflection;
-using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Windows.Media.Imaging;
+using ImageResizer;
 using Media.FusedConnection.Code;
 using Media.FusedConnection.Helpers;
 using Media.FusedConnection.Messages;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
 
 namespace Media.FusedConnection.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Web.Http;
-    using System.Windows.Media.Imaging;
-    using ImageResizer;
-
     namespace Media.FusedConnection.com.Controllers
     {
         public class ImagesController : Controller
         {
-            [HttpPost]
+            [System.Web.Http.HttpPost]
             public ActionResult Upload(string Id)
             {
                 var result = new List<UploadFilesResult>();
@@ -40,44 +39,70 @@ namespace Media.FusedConnection.Controllers
                         Name = file.FileName,
                         Exif = string.Empty
                     });
+                    var creds = new StorageCredentials("camyam",
+                        "jSOJER/BuVv78ihT9pekSdoxgy97jPDxr8J/oLBf0cYawuNSoN+sfJTJr1oUOU2SkvxZxq1EsnaxnyZfYBQ97Q==");
+                    var storageAccount = new CloudStorageAccount(creds,
+                        new Uri("https://camyam.blob.core.windows.net/"),
+                        new Uri("https://camyam.queue.core.windows.net/"),
+                        new Uri("https://camyam.table.core.windows.net/"),
+                        new Uri("https://camyam.files.core.windows.net/"));
+                    //CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["StorageConnectionString"]);
+
+                    // Create the blob client.
+                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+
+                    // Retrieve reference to a previously created container.
+                    CloudBlobContainer container = blobClient.GetContainerReference("images");
+
+                    // Retrieve reference to the blob we want to create            
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(db.Id + ".jpg");
+
 
                     //The resizing settings can specify any of 30 commands.. See http://imageresizing.net for details.
                     //Destination paths can have variables like <guid> and <ext>, or 
-
-                    var i = new ImageJob(file, string.Format("~/uploads/{0}.<ext>",db.Id), new Instructions(
-                                                                             "width=2048;height=2048;mode=max;copymetadata=true"))
-                        {
-                            CreateParentDirectory = true
-                        };
-                    i.Build();
-                    var source = BitmapFrame.Create(new Uri(i.FinalPath));
-                    BitmapMetadata meta = null;
-                    if (source != null)
+                    // Populate our blob with contents from the uploaded file.
+                    using (var ms = new MemoryStream())
                     {
-                        meta = source.Metadata as BitmapMetadata;
-                    }
-                    var fileModel = new UploadFilesResult()
+                        var i = new ImageJob(file.InputStream,
+                                ms, new Instructions("width=2048;height=2048;copymetadata=true;format=jpg;mode=max"));
+                        i.Build();
+
+                        blockBlob.Properties.ContentType = "image/jpeg";
+                        ms.Seek(0, SeekOrigin.Begin);
+                        blockBlob.UploadFromStream(ms);
+                        ms.Seek(0, SeekOrigin.Begin);
+                        var source = BitmapFrame.Create(ms);
+                        BitmapMetadata meta = null;
+                        if (source != null)
                         {
-                            Name = string.Format("/uploads/{0}",Path.GetFileName(i.FinalPath)) ,
+                            meta = source.Metadata as BitmapMetadata;
+                        }
+                        var fileModel = new UploadFilesResult()
+                        {
+                            Name = "azure/" + Path.GetFileName(blockBlob.Uri.ToString()),
                             Delete_type = "DELETE",
                             Delete_url = Url.Action("Delete", new { id = Path.GetFileNameWithoutExtension(i.FinalPath) }),
                             Size = file.ContentLength,
                             OriginalFilename = file.FileName,
                             Type = file.ContentType,
-                            Url = "/uploads/" + Path.GetFileName(i.FinalPath),
+                            Url = "azure/" + Path.GetFileName(blockBlob.Uri.ToString()),
                             Metadata = ConvertToPairs(meta)
                         };
-                    result.Add(fileModel);
-                    db.Exif = JsonConvert.SerializeObject(fileModel.Metadata);
-                    db.Mime = i.ResultMimeType;
-                    db.Path = Path.GetFileName(i.FinalPath);
-                    ImageStore.UpdateImage(db);
+                        result.Add(fileModel);
+                        db.Exif = JsonConvert.SerializeObject(fileModel.Metadata);
+                        db.Mime = i.ResultMimeType;
+                        db.Path = blockBlob.Uri.ToString();
+                        //db.Path = Path.GetFileName(i.FinalPath);
+                        ImageStore.UpdateImage(db);
+                    }
+                    
+                    
                 }
 
                 return Json(result);
             }
 
-            [HttpDelete]
+            [System.Web.Http.HttpDelete]
             public ActionResult Delete(string id)
             {
                 Guid imageId;
@@ -97,7 +122,7 @@ namespace Media.FusedConnection.Controllers
                 return new HttpNotFoundResult();
             }
 
-            [HttpDelete]
+            [System.Web.Http.HttpDelete]
             public ActionResult DeleteByUser(string id)
             {
                     var images = ImageStore.DeleteByUser(id);
@@ -113,12 +138,12 @@ namespace Media.FusedConnection.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
 
-            [HttpGet]
+            [System.Web.Http.HttpGet]
             public ActionResult Test()
             {
                 return View();
             }
-            [HttpPost]
+            [System.Web.Http.HttpPost]
             public ActionResult GetByOwner(string id)
             {
                 var images = ImageStore.GetByOwner(id);
@@ -135,7 +160,7 @@ namespace Media.FusedConnection.Controllers
                 }));
             }
 
-            [HttpPost]
+            [System.Web.Http.HttpPost]
             public ActionResult TestPost(string owner)
             {
                 Images.Initialize("http://localhost"+Url.Content("~"));
