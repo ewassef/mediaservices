@@ -7,7 +7,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
     <Property Name="Owner" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="Mime" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />

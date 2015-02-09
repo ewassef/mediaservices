@@ -48,21 +48,12 @@
     <Reference Include="AForge.Math">
       <HintPath>..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
     </Reference>
-    <Reference Include="Cache">
-      <HintPath>..\packages\SmartCache.2.0.0\lib\Cache.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="ImageResizer">
       <HintPath>..\packages\ImageResizer.3.4.3\lib\ImageResizer.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageResizer.FluentExtensions">
-      <HintPath>..\packages\ImageResizer.FluentExtensions.1.0.0.4\lib\ImageResizer.FluentExtensions.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageResizer.FluentExtensions.Mvc">
-      <HintPath>..\packages\ImageResizer.FluentExtensions.Mvc.1.0.0.4\lib\ImageResizer.FluentExtensions.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="ImageResizer.Mvc">
       <HintPath>..\packages\ImageResizer.Mvc.3.4.3\lib\ImageResizer.Mvc.dll</HintPath>
@@ -82,14 +73,8 @@
     <Reference Include="ImageResizer.Plugins.DiskCache">
       <HintPath>..\packages\ImageResizer.Plugins.DiskCache.3.4.3\lib\ImageResizer.Plugins.DiskCache.dll</HintPath>
     </Reference>
-    <Reference Include="ImageResizer.Plugins.RemoteReader">
-      <HintPath>..\packages\ImageResizer.Plugins.RemoteReader.3.4.3\lib\ImageResizer.Plugins.RemoteReader.dll</HintPath>
-    </Reference>
     <Reference Include="ImageResizer.Plugins.SeamCarving">
       <HintPath>..\packages\ImageResizer.Plugins.SeamCarving.3.4.3\lib\ImageResizer.Plugins.SeamCarving.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageResizer.Plugins.Watermark">
-      <HintPath>..\packages\ImageResizer.Plugins.Watermark.3.4.3\lib\ImageResizer.Plugins.Watermark.dll</HintPath>
     </Reference>
     <Reference Include="ImageResizer.Plugins.WhitespaceTrimmer">
       <HintPath>..\packages\ImageResizer.Plugins.WhitespaceTrimmer.3.4.3\lib\ImageResizer.Plugins.WhitespaceTrimmer.dll</HintPath>
@@ -301,6 +286,9 @@
       <DependentUpon>MediaModel.edmx</DependentUpon>
       <LastGenOutput>MediaModel.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\camyammedia.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

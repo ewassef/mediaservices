@@ -4,7 +4,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="None" />
     <Property Name="Owner" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Mime" Type="nvarchar" MaxLength="50" Nullable="false" />

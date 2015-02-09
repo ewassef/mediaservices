@@ -18,6 +18,8 @@ namespace Media.FusedConnection.Controllers
 {
     namespace Media.FusedConnection.com.Controllers
     {
+
+        [HandleError]
         public class ImagesController : Controller
         {
             [System.Web.Http.HttpPost]
@@ -25,7 +27,7 @@ namespace Media.FusedConnection.Controllers
             {
                 var result = new List<UploadFilesResult>();
                 //Loop through each uploaded file
-                for(var fileKey=0;fileKey <Request.Files.Count;fileKey++)
+                for (var fileKey = 0; fileKey < Request.Files.Count; fileKey++)
                 {
                     var file = Request.Files[fileKey];
 
@@ -34,10 +36,11 @@ namespace Media.FusedConnection.Controllers
                     var db = ImageStore.AddImage(new Image()
                     {
                         CreatedUtc = DateTime.UtcNow,
-                        Mime =  string.Empty,
+                        Mime = string.Empty,
                         Owner = Id,
                         Name = file.FileName,
-                        Exif = string.Empty
+                        Exif = string.Empty,
+                        Id = Guid.NewGuid()
                     });
                     var creds = new StorageCredentials("camyam",
                         "jSOJER/BuVv78ihT9pekSdoxgy97jPDxr8J/oLBf0cYawuNSoN+sfJTJr1oUOU2SkvxZxq1EsnaxnyZfYBQ97Q==");
@@ -79,13 +82,13 @@ namespace Media.FusedConnection.Controllers
                         }
                         var fileModel = new UploadFilesResult()
                         {
-                            Name = "azure/" + Path.GetFileName(blockBlob.Uri.ToString()),
+                            Name = "azure/images/" + Path.GetFileName(blockBlob.Uri.ToString()),
                             Delete_type = "DELETE",
                             Delete_url = Url.Action("Delete", new { id = Path.GetFileNameWithoutExtension(i.FinalPath) }),
                             Size = file.ContentLength,
                             OriginalFilename = file.FileName,
                             Type = file.ContentType,
-                            Url = "azure/" + Path.GetFileName(blockBlob.Uri.ToString()),
+                            Url = "azure/images/" + Path.GetFileName(blockBlob.Uri.ToString()),
                             Metadata = ConvertToPairs(meta)
                         };
                         result.Add(fileModel);
@@ -95,8 +98,8 @@ namespace Media.FusedConnection.Controllers
                         //db.Path = Path.GetFileName(i.FinalPath);
                         ImageStore.UpdateImage(db);
                     }
-                    
-                    
+
+
                 }
 
                 return Json(result);
@@ -112,10 +115,10 @@ namespace Media.FusedConnection.Controllers
                     if (image == null)
                         return new HttpStatusCodeResult(HttpStatusCode.NoContent);
                     ImageStore.DeleteImage(image);
-                    var info = new DirectoryInfo(Server.MapPath(string.Format("~/uploads"))).GetFiles(string.Format("{0}.*",image.Id));
+                    var info = new DirectoryInfo(Server.MapPath(string.Format("~/uploads"))).GetFiles(string.Format("{0}.*", image.Id));
                     if (info.Any())
                     {
-                        info.ToList().ForEach(x=>x.Delete());
+                        info.ToList().ForEach(x => x.Delete());
                         return new HttpStatusCodeResult(HttpStatusCode.OK);
                     }
                 }
@@ -125,16 +128,17 @@ namespace Media.FusedConnection.Controllers
             [System.Web.Http.HttpDelete]
             public ActionResult DeleteByUser(string id)
             {
-                    var images = ImageStore.DeleteByUser(id);
-                    if (images == null || !images.Any())
-                        return new HttpStatusCodeResult(HttpStatusCode.NoContent);
-                    images.ForEach(image=>{
+                var images = ImageStore.DeleteByUser(id);
+                if (images == null || !images.Any())
+                    return new HttpStatusCodeResult(HttpStatusCode.NoContent);
+                images.ForEach(image =>
+                {
                     var info = new DirectoryInfo(Server.MapPath(string.Format("~/uploads"))).GetFiles(string.Format("{0}.*", image.Id));
                     if (info.Any())
                     {
                         info.ToList().ForEach(x => x.Delete());
                     }
-                    });
+                });
                 return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
 
@@ -151,7 +155,7 @@ namespace Media.FusedConnection.Controllers
                 {
                     Name = string.Format("/uploads/{0}", x.Path),
                     Delete_type = "DELETE",
-                    Delete_url = Url.Action("Delete", new {id = Path.GetFileNameWithoutExtension(x.Path)}),
+                    Delete_url = Url.Action("Delete", new { id = Path.GetFileNameWithoutExtension(x.Path) }),
                     Size = x.Size.GetValueOrDefault(),
                     OriginalFilename = x.Name,
                     Type = x.Mime,
@@ -163,34 +167,34 @@ namespace Media.FusedConnection.Controllers
             [System.Web.Http.HttpPost]
             public ActionResult TestPost(string owner)
             {
-                Images.Initialize("http://localhost"+Url.Content("~"));
+                Images.Initialize(Url.Action("~", string.Empty, null, Request.Url.Scheme).Replace("/Home", ""));
                 var result = Request.RedirectToCdn("Test");
                 result.Wait();
                 var res = result.Result;
                 return Json(res);
             }
 
-            private string[] Ignore = new []{"CanFreeze","IsFrozen","DependencyObjectType","IsSealed","Dispatcher"};
+            private string[] Ignore = new[] { "CanFreeze", "IsFrozen", "DependencyObjectType", "IsSealed", "Dispatcher" };
 
-            
+
             private Dictionary<string, string> ConvertToPairs<T>(T objectToConvert)
             {
                 var result = new Dictionary<string, string>();
                 var t = typeof(T).GetProperties();
-                foreach (var p in t.Where(x=>Ignore.All(i=>x.Name!=i)))
+                foreach (var p in t.Where(x => Ignore.All(i => x.Name != i)))
                 {
                     try
                     {
                         var value = p.GetValue(objectToConvert);
-                        if (value != null && typeof (IList<string>).IsAssignableFrom(p.PropertyType))
+                        if (value != null && typeof(IList<string>).IsAssignableFrom(p.PropertyType))
                         {
                             result[p.Name] = string.Join(",", value as IList<string>);
                         }
                         else
                         {
-                            result[p.Name] = Convert.ToString(value);    
+                            result[p.Name] = Convert.ToString(value);
                         }
-                        
+
                     }
                     catch
                     {

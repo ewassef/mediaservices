@@ -1,5 +1,4 @@
 C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection.Messages\bin\Debug\Media.FusedConnection.Messages.dll
 C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection.Messages\bin\Debug\Media.FusedConnection.Messages.pdb
-C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection.Messages\obj\Debug\Media.FusedConnection.Messages.csprojResolveAssemblyReference.cache
 C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection.Messages\obj\Debug\Media.FusedConnection.Messages.dll
 C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection.Messages\obj\Debug\Media.FusedConnection.Messages.pdb
