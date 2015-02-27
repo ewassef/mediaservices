@@ -18,10 +18,12 @@ namespace Media.FusedConnection.Controllers
 {
     namespace Media.FusedConnection.com.Controllers
     {
-
+        
+        
         [HandleError]
         public class ImagesController : Controller
         {
+            static string _cacheSettings = "public, max-age=7776000"; // 3 months
             [System.Web.Http.HttpPost]
             public ActionResult Upload(string Id)
             {
@@ -71,6 +73,7 @@ namespace Media.FusedConnection.Controllers
                         i.Build();
 
                         blockBlob.Properties.ContentType = "image/jpeg";
+                        blockBlob.Properties.CacheControl = _cacheSettings;
                         ms.Seek(0, SeekOrigin.Begin);
                         blockBlob.UploadFromStream(ms);
                         ms.Seek(0, SeekOrigin.Begin);

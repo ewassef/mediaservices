@@ -108,3 +108,5 @@ C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection\ob
 C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection\obj\Debug\Media.FusedConnection.csprojResolveAssemblyReference.cache
 C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection\obj\Debug\Media.FusedConnection.dll
 C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection\obj\Debug\Media.FusedConnection.pdb
+C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection\bin\Cache.dll
+C:\Users\Eddie\Documents\projects\Media.FusedConnection\Media.FusedConnection\bin\Cache.pdb

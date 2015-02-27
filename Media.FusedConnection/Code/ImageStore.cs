@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-//using Cache;
+using Cache;
 using Media.FusedConnection.Helpers;
 
 namespace Media.FusedConnection.Code
 {
     public static class ImageStore
     {
-        //private static readonly CollectionCache<Image> _images;
+        private static readonly CollectionCache<Image> _images;
 
         static ImageStore()
         {
-          //  _images = new CollectionCache<Image>(images => images.Id);
+            _images = new CollectionCache<Image>(images => images.Id);
         }
 
         public static Image AddImage(Image image)
@@ -22,7 +22,7 @@ namespace Media.FusedConnection.Code
             {
                 entity.Images.Add(image);
                 entity.SaveChanges();
-            //    _images.ItemCache.Add(image);
+                _images.ItemCache.Add(image);
                 return image;
             }
         }
@@ -39,7 +39,7 @@ namespace Media.FusedConnection.Code
                 db.Path = image.Path;
                 db.Size = image.Size;
                 entity.SaveChanges();
-              //  _images.ItemCache.Add(image);
+                _images.ItemCache.Add(image);
                 return image;
             }
         }
@@ -51,19 +51,19 @@ namespace Media.FusedConnection.Code
                 entity.Images.Attach(image);
                 entity.Images.Remove(image);
                 entity.SaveChanges();
-               // _images.Clear(image.Id);
+                _images.Clear(image.Id);
             }
         }
 
         public static Image GetImage(Guid id)
         {
-           //return _images.ItemCache.Get(id, o =>
-           //     {
+           return _images.ItemCache.Get(id, o =>
+                {
                     using (var entity = new MediaEntities())
                     {
                         return entity.Images.FirstOrDefault(x => x.Id == id);
                     }
-                //});
+                });
         }
 
 
@@ -83,7 +83,7 @@ namespace Media.FusedConnection.Code
                 images.ForEach(image =>
                 {
                     entity.Images.Remove(image);
-                    //_images.Clear(image.Id);
+                    _images.Clear(image.Id);
                 });
                 entity.SaveChanges();
                 return images;
